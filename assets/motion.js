@@ -16,7 +16,7 @@ document.querySelectorAll('img[data-fallback]').forEach((img) => {
 });
 
 // ----- Reveals on scroll (run once) -----
-document.querySelectorAll('[data-reveal]:not([data-parallax])').forEach((el) => {
+document.querySelectorAll('[data-reveal]').forEach((el) => {
   inView(el, () => {
     el.classList.add('is-revealed');
     return () => {};
@@ -28,7 +28,6 @@ const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').mat
 if (!prefersReduced) {
   document.querySelectorAll('[data-parallax]').forEach((el) => {
     const intensity = parseFloat(el.dataset.parallax) || -30;
-    // Anima translateY desde +intensity hasta -intensity mientras el elemento atraviesa el viewport
     scroll(
       animate(el, { y: [intensity, -intensity] }, { easing: 'linear' }),
       { target: el, offset: ['start end', 'end start'] }
