@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>El Hackathon · Build Us With AI · Banana Creative</title>
+  <meta name="description" content="Documentación completa del hackathon Build Us With AI: visión, equipos, retos, criterios de evaluación, reglas y premio." />
+  <meta name="theme-color" content="#FAF7F0" />
+
+  <!-- FONTS -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://api.fontshare.com">
+  <link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://api.fontshare.com/v2/css?f[]=switzer@400,500,600,700,800,900&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="assets/styles.css" />
+
+  <style>
+    /* Page-specific tweaks */
+    /* OBJ-LIST — editorial: grid columna numero + texto, separadores entre filas */
+    .obj-list { counter-reset: obj; border-top: 2px solid var(--ink); }
+    .obj-list li {
+      counter-increment: obj;
+      display: grid;
+      grid-template-columns: clamp(80px, 12vw, 140px) 1fr;
+      gap: clamp(var(--sp-4), 4vw, var(--sp-7));
+      padding: var(--sp-6) 0;
+      border-bottom: 2px solid var(--ink);
+      align-items: baseline;
+      font-size: var(--fs-md);
+      line-height: 1.35;
+      transition: background .2s ease;
+    }
+    .obj-list li:hover { background: var(--bone-2); }
+    .obj-list li::before {
+      content: counter(obj, decimal-leading-zero);
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: clamp(2.5rem, 7vw, 5rem);
+      line-height: 0.9;
+      letter-spacing: -0.04em;
+      color: var(--ink);
+    }
+    @media (max-width: 540px) {
+      .obj-list li { grid-template-columns: 1fr; gap: var(--sp-2); padding: var(--sp-5) 0; }
+      .obj-list li::before { font-size: 2.5rem; }
+    }
+
+    .team-table { font-family: var(--font-mono); font-size: var(--fs-sm); border: 2px solid var(--ink); border-radius: var(--radius-md); overflow: hidden; }
+    .team-table th, .team-table td { padding: var(--sp-4) var(--sp-3); text-align: left; vertical-align: top; border-bottom: 1.5px solid var(--line); }
+    .team-table tbody tr:last-child td { border-bottom: 0; }
+    .team-table th { font-weight: 600; color: var(--ink); font-size: var(--fs-xs); letter-spacing: 0.08em; text-transform: uppercase; background: var(--bone-2); border-bottom: 2px solid var(--ink); }
+    .team-table td:first-child { white-space: nowrap; font-weight: 700; font-family: var(--font-display); font-size: var(--fs-base); }
+    .team-table tr:hover td { background: var(--bone-2); }
+
+    .timeline { display: grid; gap: var(--sp-3); grid-template-columns: 1fr; }
+    @media (min-width: 640px)  { .timeline { grid-template-columns: repeat(2, 1fr); } }
+    @media (min-width: 1024px) { .timeline { grid-template-columns: repeat(6, 1fr); } }
+    .timeline__week {
+      padding: var(--sp-5);
+      border: 2px solid var(--ink);
+      border-radius: var(--radius-md);
+      background: var(--bone);
+      position: relative;
+      transition: transform .2s ease, background .2s ease;
+    }
+    .timeline__week:hover { transform: translateY(-4px); background: var(--bone-2); }
+    .timeline__week--current { background: var(--candy-pink); }
+    .timeline__week--current::after {
+      content: "ahora";
+      position: absolute;
+      top: -10px; right: -10px;
+      background: var(--ink);
+      color: var(--candy-pink);
+      font-family: var(--font-mono);
+      font-size: 10px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+    .timeline__num { font-family: var(--font-mono); font-size: var(--fs-xs); color: var(--ink); letter-spacing: 0.06em; text-transform: uppercase; font-weight: 600; }
+    .timeline__title { font-size: var(--fs-md); margin-top: var(--sp-2); line-height: 1.1; }
+
+    .criteria { font-family: var(--font-mono); font-size: var(--fs-sm); border: 2px solid var(--ink); border-radius: var(--radius-md); overflow: hidden; }
+    .criteria th, .criteria td { padding: var(--sp-3) var(--sp-4); text-align: left; border-bottom: 1.5px solid var(--line); }
+    .criteria td.col-pts { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; font-weight: 700; }
+    .criteria th { font-weight: 600; color: var(--ink); font-size: var(--fs-xs); letter-spacing: 0.08em; text-transform: uppercase; background: var(--bone-2); border-bottom: 2px solid var(--ink); }
+    .criteria tfoot td { font-weight: 800; padding-top: var(--sp-4); border-bottom: 0; background: var(--candy-pink); border-top: 2px solid var(--ink); font-size: var(--fs-md); }
+    .criteria .star { display: inline-block; padding: 1px 6px; margin-right: 6px; border: 1.5px solid var(--ink); border-radius: 999px; background: var(--candy-pink); font-size: 10px; }
+
+    /* RULES — mismo lenguaje editorial que obj-list, 2 cols en desktop */
+    .rules { counter-reset: rule; border-top: 2px solid var(--ink); display: grid; grid-template-columns: 1fr; }
+    @media (min-width: 768px) { .rules { grid-template-columns: repeat(2, 1fr); column-gap: var(--sp-7); } }
+    .rules li {
+      counter-increment: rule;
+      display: grid;
+      grid-template-columns: 56px 1fr;
+      gap: var(--sp-4);
+      padding: var(--sp-5) 0;
+      border-bottom: 2px solid var(--ink);
+      align-items: baseline;
+      font-size: var(--fs-base);
+      line-height: 1.4;
+      transition: background .2s ease;
+    }
+    .rules li:hover { background: var(--bone-2); }
+    .rules li::before {
+      content: counter(rule, decimal-leading-zero);
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: clamp(1.75rem, 4vw, 2.5rem);
+      line-height: 0.9;
+      letter-spacing: -0.03em;
+      color: var(--ink);
+    }
+    @media (min-width: 768px) {
+      /* Mantener border-bottom solo en filas, no entre columnas */
+      .rules li:nth-last-child(2):not(:nth-child(2n)),
+      .rules li:last-child { border-bottom: 0; }
+    }
+    @media (max-width: 540px) {
+      .rules li { grid-template-columns: 44px 1fr; padding: var(--sp-4) 0; }
+    }
+
+    .prize {
+      border: 2px solid var(--ink);
+      border-radius: var(--radius-xl);
+      padding: var(--sp-9) var(--sp-7);
+      background: var(--bone);
+      color: var(--ink);
+      text-align: center;
+      position: relative;
+    }
+    /* Sin círculos sangrados — clean banner */
+    .prize > * { position: relative; z-index: 1; }
+    .prize__amount { font-size: var(--fs-hero); font-weight: 900; line-height: 0.9; letter-spacing: -0.05em; }
+    .prize__split { font-family: var(--font-mono); margin-top: var(--sp-3); font-size: var(--fs-md); }
+
+    .docs-req { display: grid; gap: var(--sp-4); grid-template-columns: 1fr; }
+    @media (min-width: 768px) { .docs-req { grid-template-columns: repeat(2, 1fr); } }
+
+    /* Page-level sticker decorations */
+    .page-sticker {
+      position: absolute;
+      pointer-events: none;
+      z-index: 1;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <header class="site-nav">
+    <div class="container site-nav__inner">
+      <a href="index.html" class="site-nav__brand" aria-label="Banana Creative · Build Us With AI">
+        <img src="assets/banana-logo.svg" alt="" onerror="this.style.display='none'" />
+        <span class="site-nav__brand-text site-nav__brand-text--full">Build Us With AI</span>
+        <span class="site-nav__brand-text site-nav__brand-text--short">BUWAI</span>
+      </a>
+      <nav class="site-nav__links" aria-label="Principal">
+        <a href="index.html">Leaderboard</a>
+        <a href="hackaton.html" aria-current="page">Hackathon</a>
+        <a href="setup.html">Setup</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- HERO -->
+    <section class="hero container" data-reveal>
+      <div class="hero__stickers" aria-hidden="true">
+        <span class="sticker sticker--rotR">$1,250</span>
+        <span class="sticker sticker--white sticker--rotL2">5 equipos</span>
+        <span class="sticker">6 semanas</span>
+        <span class="sticker sticker--white sticker--rotR">jurado externo</span>
+      </div>
+
+      <span class="label">Banana Creative · Hackathon interno · 2026</span>
+      <h1 class="hero__title" style="margin-top:var(--sp-3);">
+        El <span class="word--accent">Hackathon</span>
+      </h1>
+      <p class="hero__lead">Usar Claude — principalmente Claude Cowork — para resolver problemas reales de Banana. El resultado no es un ejercicio: es un proyecto completo e implementable.</p>
+    </section>
+
+    <!-- VISIÓN — 7 OBJETIVOS -->
+    <section class="section container" id="vision">
+      <header class="sec-header" data-reveal>
+        <span class="label">01 · Visión</span>
+        <h2>Qué queremos lograr.</h2>
+      </header>
+      <ol class="obj-list">
+        <li data-reveal data-reveal-delay="1">Que todo el equipo de Banana domine Claude como herramienta central de trabajo.</li>
+        <li data-reveal data-reveal-delay="1">Identificar y resolver problemas reales del negocio — no ejercicios académicos.</li>
+        <li data-reveal data-reveal-delay="2">Producir entregables completos: investigación, estrategia, diseño, ventas, presentación.</li>
+        <li data-reveal data-reveal-delay="2">Construir cultura interna de colaboración cruzada entre disciplinas.</li>
+        <li data-reveal data-reveal-delay="3">Elevar el estándar de calidad creativa con apoyo de IA.</li>
+        <li data-reveal data-reveal-delay="3">Generar propiedad intelectual nueva para Banana — productos, sistemas, IP.</li>
+        <li data-reveal data-reveal-delay="4">Validar la IA como ventaja competitiva real, no como hype.</li>
+      </ol>
+    </section>
+
+    <!-- EQUIPOS + RETOS -->
+    <section class="section container" id="teams">
+      <header class="sec-header" data-reveal>
+        <span class="label">02 · Equipos y retos asignados</span>
+        <h2>Cinco equipos. Cinco frentes.</h2>
+      </header>
+      <div style="overflow-x:auto;" data-reveal>
+        <table class="team-table">
+          <thead>
+            <tr>
+              <th>Grupo</th>
+              <th>Integrantes</th>
+              <th>Reto</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>G01</td>
+              <td>Andrea Trujillo, Andrea Joves, Mariangelis Meneses, Isabella Becerra</td>
+              <td>Banana Lite — servicios para medianas empresas</td>
+            </tr>
+            <tr>
+              <td>G02</td>
+              <td>Maria Paola Velazco, Alexandra Barrios, Andres Triana, Ambar Bello, Mariangela Dagosto</td>
+              <td>Banana Retainer — modelo de suscripción creativa</td>
+            </tr>
+            <tr>
+              <td>G03</td>
+              <td>Aniangi Vieira, Elias Jesri, Luis Velasquez, Barbara Grau, May Gaspard</td>
+              <td>Banana USA — expansión al mercado norteamericano</td>
+            </tr>
+            <tr>
+              <td>G04</td>
+              <td>Alexa Penas, Alexandra Monteverde, Santiago Sanchez, Miguel Rivas, Jhormarys Barreto</td>
+              <td>Banana Academy — formación interna y talento</td>
+            </tr>
+            <tr>
+              <td>DIR</td>
+              <td>Arianna Perez, Andrea Gonzalez, Guillermo Mancera</td>
+              <td>Visión Banana 2026 — reto libre, fuera de competencia</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 4 RETOS COMPETITIVOS + 1 DIRECTIVO -->
+    <section class="section container" id="challenges">
+      <header class="sec-header" data-reveal>
+        <span class="label">03 · Retos · 4 competitivos + 1 directivo</span>
+        <h2>Los frentes a atacar.</h2>
+      </header>
+
+      <div class="grid-2">
+        <article class="card" data-reveal data-reveal-delay="1">
+          <span class="card__index">G01 · Competitivo</span>
+          <h3 class="card__title">Banana Lite</h3>
+          <p>Diseñar una línea de servicios accesible para medianas empresas. Resolver la tensión entre estructura especializada y barrera de entrada.</p>
+        </article>
+        <article class="card" data-reveal data-reveal-delay="2">
+          <span class="card__index">G02 · Competitivo</span>
+          <h3 class="card__title">Banana Retainer</h3>
+          <p>Construir un modelo de suscripción creativa que migre a Banana del proyecto puntual a la relación de largo plazo, sostenible para equipo y atractiva para cliente.</p>
+        </article>
+        <article class="card" data-reveal data-reveal-delay="3">
+          <span class="card__index">G03 · Competitivo</span>
+          <h3 class="card__title">Banana USA</h3>
+          <p>Sistema repetible de atracción y cierre de clientes en el mercado norteamericano. Branding, posicionamiento y embudo de ventas.</p>
+        </article>
+        <article class="card" data-reveal data-reveal-delay="4">
+          <span class="card__index">G04 · Competitivo</span>
+          <h3 class="card__title">Banana Academy</h3>
+          <p>Formación interna y desarrollo de talento. Convertir la cultura interna en ventaja competitiva visible hacia afuera.</p>
+        </article>
+        <article class="card card--ink" style="grid-column:1/-1;" data-reveal>
+          <span class="card__index">DIR · Reto libre · No compite por el premio</span>
+          <h3 class="card__title">Visión Banana 2026</h3>
+          <p>El equipo directivo construye y articula la visión 2026 de Banana: dirección estratégica, prioridades, narrativa interna y externa.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- DOCUMENTACIÓN -->
+    <section class="section container" id="docs">
+      <header class="sec-header" data-reveal>
+        <span class="label">04 · Documentación</span>
+        <h2>Lo que hay que dejar registrado.</h2>
+      </header>
+      <div class="docs-req">
+        <div class="card" data-reveal data-reveal-delay="1">
+          <span class="label">Notion del equipo</span>
+          <p style="margin-top:var(--sp-3);">Estructura clara, escalable, navegable. Research logs, decisiones, prompts, conclusiones.</p>
+        </div>
+        <div class="card" data-reveal data-reveal-delay="2">
+          <span class="label">Time tracking</span>
+          <p style="margin-top:var(--sp-3);">Registro semanal de horas y participación por miembro. Criterio de mayor peso (20 pts).</p>
+        </div>
+        <div class="card" data-reveal data-reveal-delay="3">
+          <span class="label">Prompt log</span>
+          <p style="margin-top:var(--sp-3);">Conversaciones clave con Claude que llevaron a decisiones. Documentar el proceso, no solo el output.</p>
+        </div>
+        <div class="card" data-reveal data-reveal-delay="4">
+          <span class="label">Decisiones</span>
+          <p style="margin-top:var(--sp-3);">Cada decisión importante con justificación. Razonamiento del equipo encima del output de Claude.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- TIMELINE -->
+    <section class="section container" id="timeline">
+      <header class="sec-header" data-reveal>
+        <span class="label">05 · Timeline · 6 semanas</span>
+        <h2>El cronograma.</h2>
+      </header>
+      <div class="timeline">
+        <div class="timeline__week" data-reveal data-reveal-delay="1">
+          <span class="timeline__num">Semana 1</span>
+          <div class="timeline__title">Claude Setup</div>
+        </div>
+        <div class="timeline__week" data-reveal data-reveal-delay="2">
+          <span class="timeline__num">Semana 2</span>
+          <div class="timeline__title">Kickoff + Research</div>
+        </div>
+        <div class="timeline__week timeline__week--current" data-reveal data-reveal-delay="3">
+          <span class="timeline__num">Semana 3</span>
+          <div class="timeline__title">Conceptualización + 1er avance</div>
+        </div>
+        <div class="timeline__week" data-reveal data-reveal-delay="4">
+          <span class="timeline__num">Semana 4</span>
+          <div class="timeline__title">Build + 2do avance</div>
+        </div>
+        <div class="timeline__week" data-reveal data-reveal-delay="5">
+          <span class="timeline__num">Semana 5</span>
+          <div class="timeline__title">Polish</div>
+        </div>
+        <div class="timeline__week" data-reveal data-reveal-delay="6">
+          <span class="timeline__num">Semana 6</span>
+          <div class="timeline__title">Presentación final</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CRITERIOS DE EVALUACIÓN -->
+    <section class="section container" id="criteria">
+      <header class="sec-header" data-reveal>
+        <span class="label">06 · Criterios de evaluación · 100 pts</span>
+        <h2>Cómo se mide.</h2>
+      </header>
+      <div style="overflow-x:auto;" data-reveal>
+        <table class="criteria">
+          <thead>
+            <tr><th>Criterio</th><th class="col-pts">Pts</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Profundidad de investigación</td><td class="col-pts">5</td></tr>
+            <tr><td>Calidad de conceptualización</td><td class="col-pts">5</td></tr>
+            <tr><td>Embudo de ventas</td><td class="col-pts">10</td></tr>
+            <tr><td><span class="star">★</span>Automatización de procesos con Claude</td><td class="col-pts">20</td></tr>
+            <tr><td>Calidad del proyecto</td><td class="col-pts">5</td></tr>
+            <tr><td>Dominio de IA</td><td class="col-pts">10</td></tr>
+            <tr><td><span class="star">★</span>Registro de tiempos y participación</td><td class="col-pts">20</td></tr>
+            <tr><td>Impacto real en Banana</td><td class="col-pts">10</td></tr>
+            <tr><td>Colaboración transversal</td><td class="col-pts">10</td></tr>
+            <tr><td>Presentación final</td><td class="col-pts">5</td></tr>
+          </tbody>
+          <tfoot>
+            <tr><td>Total</td><td class="col-pts">100</td></tr>
+          </tfoot>
+        </table>
+      </div>
+      <p class="label" style="margin-top:var(--sp-4);">★ Criterios de mayor peso · 20 pts c/u</p>
+    </section>
+
+    <!-- BADGE SYSTEM (5) -->
+    <section class="section container" id="badges">
+      <header class="sec-header" data-reveal>
+        <span class="label">07 · Badges · 5 medallas</span>
+        <h2>El meta-juego.</h2>
+        <p style="max-width:60ch;color:var(--ink-2);">Cada badge se entrega <strong>por avance</strong> al equipo que más lo merezca. No se reparten todas en cada avance — solo las que un equipo realmente se haya ganado. Pasa el cursor sobre cada medalla para ver el brillo y la rotación 3D.</p>
+      </header>
+      <div class="legend" data-reveal>
+        <article class="badge-card badge-card--bg-pink">
+          <div class="badge-card__coin"><img src="assets/badges/creative-forward.png" alt="" /></div>
+          <span class="badge-card__pts">3 pts</span>
+          <h3 class="badge-card__title">Creative Forward</h3>
+          <p class="badge-card__desc">Más alma, pasión y visión genuina. Se entrega por avance al equipo que la merezca.</p>
+        </article>
+        <article class="badge-card badge-card--bg-blue">
+          <div class="badge-card__coin"><img src="assets/badges/deep-dive.png" alt="" /></div>
+          <span class="badge-card__pts">3 pts</span>
+          <h3 class="badge-card__title">Deep Dive</h3>
+          <p class="badge-card__desc">Investigación más profunda, respaldada por data. Se entrega por avance al equipo que la merezca.</p>
+        </article>
+        <article class="badge-card badge-card--bg-green">
+          <div class="badge-card__coin"><img src="assets/badges/the-thinker.png" alt="" /></div>
+          <span class="badge-card__pts">3 pts</span>
+          <h3 class="badge-card__title">The Thinker</h3>
+          <p class="badge-card__desc">Mejor razonamiento y conceptualización aterrizada. Se entrega por avance al equipo que la merezca.</p>
+        </article>
+        <article class="badge-card badge-card--bg-yellow">
+          <div class="badge-card__coin"><img src="assets/badges/paper-trail.png" alt="" /></div>
+          <span class="badge-card__pts">3 pts</span>
+          <h3 class="badge-card__title">Paper Trail</h3>
+          <p class="badge-card__desc">Mejor documentación: time logs, prompts, decisiones. Se entrega por avance al equipo que la merezca.</p>
+        </article>
+        <article class="badge-card">
+          <div class="badge-card__coin"><img src="assets/badges/eye-candy.png" alt="" /></div>
+          <span class="badge-card__pts">2 pts</span>
+          <h3 class="badge-card__title">Eye Candy</h3>
+          <p class="badge-card__desc">Mejor estética visual. Se entrega por avance al equipo que la merezca.</p>
+        </article>
+      </div>
+      <p style="margin-top:var(--sp-5);max-width:62ch;font-size:var(--fs-md);">El equipo con más puntos acumulados de badges al final del hackathon gana un <strong>premio especial</strong> adicional al premio principal de $1,250.</p>
+    </section>
+
+    <!-- REGLAS -->
+    <section class="section container" id="rules">
+      <header class="sec-header" data-reveal>
+        <span class="label">08 · Reglas · 10 reglas</span>
+        <h2>Cómo se juega.</h2>
+      </header>
+      <ol class="rules">
+        <li data-reveal data-reveal-delay="1">Claude Cowork como herramienta central. Documentar todo.</li>
+        <li data-reveal data-reveal-delay="1">Entregable es un proyecto completo — no solo un sitio web.</li>
+        <li data-reveal data-reveal-delay="2">Todos los miembros del equipo participan por igual.</li>
+        <li data-reveal data-reveal-delay="2">Avances semanales son obligatorios.</li>
+        <li data-reveal data-reveal-delay="3">Jurado externo independiente.</li>
+        <li data-reveal data-reveal-delay="3">Pensamiento crítico por encima de velocidad.</li>
+        <li data-reveal data-reveal-delay="4">La solución debe resolver un problema real de Banana.</li>
+        <li data-reveal data-reveal-delay="4">Embudos de venta son requeridos.</li>
+        <li data-reveal data-reveal-delay="5">Al menos una automatización de proceso real usando skills de Claude.</li>
+        <li data-reveal data-reveal-delay="5">Plan de acción con canales de distribución (Instagram, TikTok, LinkedIn, Pinterest, etc.).</li>
+      </ol>
+    </section>
+
+    <!-- PREMIO -->
+    <section class="section container" id="prize">
+      <div class="prize" data-reveal>
+        <span class="label" style="color:var(--ink);">Premio principal</span>
+        <div class="prize__amount" style="margin-top:var(--sp-3);">$1,250</div>
+        <p class="prize__split">$250 USD por persona · equipo ganador</p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      <span class="site-footer__copy"><img src="assets/copyright.svg" alt="© BANANACREATIVE.CO" /></span>
+      <span>Caracas, Venezuela · Build Us With AI · 2026</span>
+    </div>
+  </footer>
+
+  <script type="module" src="assets/motion.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Claude Setup · Build Us With AI · Banana Creative</title>
+  <meta name="description" content="Guía para participantes: qué es Claude, los 3 modelos, método de prompting de 4 bloques, Projects, About You, planes y quick start." />
+  <meta name="theme-color" content="#FAF7F0" />
+
+  <!-- FONTS -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://api.fontshare.com">
+  <link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://api.fontshare.com/v2/css?f[]=switzer@400,500,600,700,800,900&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="assets/styles.css" />
+
+  <style>
+    /* TOC */
+    .toc {
+      display: grid;
+      gap: var(--sp-2);
+      grid-template-columns: 1fr;
+      font-family: var(--font-mono);
+      font-size: var(--fs-sm);
+      margin-top: var(--sp-6);
+    }
+    @media (min-width: 768px)  { .toc { grid-template-columns: repeat(2, 1fr); } }
+    @media (min-width: 1024px) { .toc { grid-template-columns: repeat(4, 1fr); } }
+    .toc a {
+      padding: var(--sp-3) var(--sp-4);
+      border: 2px solid var(--ink);
+      border-radius: var(--radius-md);
+      display: flex; justify-content: space-between; align-items: center;
+      background: var(--bone);
+      transition: background .2s ease, transform .2s ease, box-shadow .2s ease;
+    }
+    .toc a:hover { background: var(--bone-2); transform: translate(-2px,-2px); box-shadow: 4px 4px 0 var(--ink); }
+
+    .prose { max-width: 65ch; font-size: var(--fs-md); }
+    .prose p + p { margin-top: var(--sp-4); }
+    .prose strong { font-weight: 700; }
+    .prose a { border-bottom: 2px solid currentColor; padding-bottom: 1px; }
+
+    /* PROMPT 4 BLOCKS */
+    .prompt-blocks { display: grid; gap: var(--sp-5); grid-template-columns: 1fr; counter-reset: pblock; }
+    @media (min-width: 768px) { .prompt-blocks { grid-template-columns: repeat(2, 1fr); } }
+    .prompt-blocks li {
+      counter-increment: pblock;
+      padding: var(--sp-6);
+      border: 2px solid var(--ink);
+      border-radius: var(--radius-md);
+      transition: transform .2s ease, box-shadow .2s ease;
+    }
+    .prompt-blocks li:hover { transform: translate(-3px,-3px); box-shadow: 6px 6px 0 var(--ink); }
+    /* Sin colores — bg blanco, hover suave */
+    .prompt-blocks li { background: var(--bone); }
+    .prompt-blocks li:hover { background: var(--bone-2); }
+    .prompt-blocks li::before {
+      content: "Bloque " counter(pblock, decimal-leading-zero);
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: var(--fs-xs);
+      padding: 4px 12px;
+      border: 1.5px solid var(--ink);
+      border-radius: 999px;
+      background: var(--bone);
+      margin-bottom: var(--sp-3);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+    .prompt-blocks h3 { font-size: var(--fs-lg); margin-bottom: var(--sp-2); }
+
+    /* PLANS TABLE */
+    .plans { font-family: var(--font-mono); font-size: var(--fs-sm); border: 2px solid var(--ink); border-radius: var(--radius-md); overflow: hidden; }
+    .plans th, .plans td { padding: var(--sp-3) var(--sp-4); text-align: left; vertical-align: top; border-bottom: 1.5px solid var(--line); }
+    .plans tbody tr:last-child td { border-bottom: 0; }
+    .plans th { font-weight: 600; color: var(--ink); font-size: var(--fs-xs); letter-spacing: 0.08em; text-transform: uppercase; background: var(--bone-2); border-bottom: 2px solid var(--ink); }
+    .plans td:first-child { font-family: var(--font-display); font-weight: 700; font-size: var(--fs-base); white-space: nowrap; }
+    .plans tr:hover td { background: var(--bone-2); }
+
+    /* QUICK START 5 STEPS */
+    .quick-start { display: grid; gap: var(--sp-4); grid-template-columns: 1fr; counter-reset: qs; }
+    @media (min-width: 640px)  { .quick-start { grid-template-columns: repeat(2, 1fr); } }
+    @media (min-width: 1024px) { .quick-start { grid-template-columns: repeat(5, 1fr); } }
+    .quick-start li {
+      counter-increment: qs;
+      padding: var(--sp-5);
+      border: 2px solid var(--ink);
+      border-radius: var(--radius-md);
+      background: var(--bone);
+      transition: background .2s ease, transform .2s ease;
+    }
+    .quick-start li:hover { background: var(--bone-2); transform: translateY(-4px); }
+    .quick-start li::before {
+      content: counter(qs, decimal-leading-zero);
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: var(--fs-2xl);
+      line-height: 1;
+      color: var(--ink);
+      display: block;
+      margin-bottom: var(--sp-3);
+    }
+    .quick-start h3 { font-size: var(--fs-md); margin-bottom: var(--sp-2); }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <header class="site-nav">
+    <div class="container site-nav__inner">
+      <a href="index.html" class="site-nav__brand" aria-label="Banana Creative · Build Us With AI">
+        <img src="assets/banana-logo.svg" alt="" onerror="this.style.display='none'" />
+        <span class="site-nav__brand-text site-nav__brand-text--full">Build Us With AI</span>
+        <span class="site-nav__brand-text site-nav__brand-text--short">BUWAI</span>
+      </a>
+      <nav class="site-nav__links" aria-label="Principal">
+        <a href="index.html">Leaderboard</a>
+        <a href="hackaton.html">Hackathon</a>
+        <a href="setup.html" aria-current="page">Setup</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- HERO -->
+    <section class="hero container" data-reveal>
+      <div class="hero__stickers" aria-hidden="true">
+        <span class="sticker sticker--rotR">claude.ai</span>
+        <span class="sticker sticker--white sticker--rotL2">empieza aquí</span>
+        <span class="sticker">5 pasos</span>
+        <span class="sticker sticker--white sticker--rotR">léelo antes del kickoff</span>
+      </div>
+
+      <span class="label">Guía · participantes · Build Us With AI</span>
+      <h1 class="hero__title" style="margin-top:var(--sp-3);">
+        Claude <span class="word--accent">Setup</span>
+      </h1>
+      <p class="hero__lead">Todo lo que necesitas para arrancar con Claude. Léelo antes del kickoff.</p>
+
+      <nav class="toc" aria-label="Índice de contenido">
+        <a href="#what-is-claude"><span>01 · Qué es Claude</span><span>→</span></a>
+        <a href="#models"><span>02 · Los 3 modelos</span><span>→</span></a>
+        <a href="#prompting"><span>03 · Prompting</span><span>→</span></a>
+        <a href="#projects"><span>04 · Projects</span><span>→</span></a>
+        <a href="#about-you"><span>05 · About You</span><span>→</span></a>
+        <a href="#plans"><span>06 · Planes</span><span>→</span></a>
+        <a href="#quick-start"><span>07 · Quick start</span><span>→</span></a>
+      </nav>
+    </section>
+
+    <!-- 01 — WHAT IS CLAUDE -->
+    <section class="section container" id="what-is-claude">
+      <header class="sec-header" data-reveal>
+        <span class="label">01</span>
+        <h2>Qué es Claude.</h2>
+      </header>
+      <div class="prose" data-reveal>
+        <p>Claude es el asistente de IA de Anthropic. Diseñado para razonamiento de calidad, escritura cuidada y trabajo extendido — no respuestas rápidas y desechables.</p>
+        <p>Para Banana, Claude no es un chatbot. Es un colaborador que se conecta a tus archivos, tu Notion, tu Drive, tu calendario, y trabaja contigo en tareas reales. Mientras mejor lo dirijas, mejor entrega.</p>
+        <p>Reglas básicas: <strong>contexto manda</strong>. Mientras más contexto le des — documentos, ejemplos, restricciones — mejor el output. Y al revés: prompts vagos generan outputs vagos.</p>
+      </div>
+    </section>
+
+    <!-- 02 — 3 MODELS -->
+    <section class="section container" id="models">
+      <header class="sec-header" data-reveal>
+        <span class="label">02</span>
+        <h2>Los 3 modelos.</h2>
+      </header>
+      <div class="grid-3">
+        <article class="card" data-reveal data-reveal-delay="1">
+          <span class="card__index">Claude Opus 4.6</span>
+          <h3 class="card__title">Opus</h3>
+          <p>El modelo más potente. Razonamiento profundo, tareas largas, problemas complejos. Más lento y caro — úsalo cuando importa.</p>
+          <div class="card__meta">claude-opus-4-6</div>
+        </article>
+        <article class="card" data-reveal data-reveal-delay="2">
+          <span class="card__index">Claude Sonnet 4.6</span>
+          <h3 class="card__title">Sonnet</h3>
+          <p>El balance. Rápido, capaz, todoterreno. Tu default para el 80% del trabajo diario.</p>
+          <div class="card__meta">claude-sonnet-4-6</div>
+        </article>
+        <article class="card" data-reveal data-reveal-delay="3">
+          <span class="card__index">Claude Haiku 4.5</span>
+          <h3 class="card__title">Haiku</h3>
+          <p>El más rápido y económico. Para tareas simples, alto volumen, respuestas inmediatas.</p>
+          <div class="card__meta">claude-haiku-4-5</div>
+        </article>
+      </div>
+    </section>
+
+    <!-- 03 — PROMPTING (4 BLOCKS) -->
+    <section class="section container" id="prompting">
+      <header class="sec-header" data-reveal>
+        <span class="label">03 · Método de 4 bloques</span>
+        <h2>Cómo escribir un buen prompt.</h2>
+      </header>
+      <p class="prose" style="margin-bottom:var(--sp-6);" data-reveal>Un prompt sólido tiene cuatro bloques. Si te falta uno, el output se rompe.</p>
+      <ol class="prompt-blocks">
+        <li data-reveal data-reveal-delay="1">
+          <h3>Contexto</h3>
+          <p>Quién eres, qué empresa, qué proyecto, qué se hizo antes. Claude no sabe nada que tú no le digas.</p>
+        </li>
+        <li data-reveal data-reveal-delay="2">
+          <h3>Tarea</h3>
+          <p>Qué quieres exactamente. Un verbo claro: "redacta", "analiza", "compara", "extrae". Sin ambigüedad.</p>
+        </li>
+        <li data-reveal data-reveal-delay="3">
+          <h3>Restricciones</h3>
+          <p>Formato, tono, longitud, qué evitar, audiencia, estilo. Las reglas del juego.</p>
+        </li>
+        <li data-reveal data-reveal-delay="4">
+          <h3>Ejemplos</h3>
+          <p>Muestra cómo se ve "bueno" y "malo". Un ejemplo vale más que tres páginas de instrucciones.</p>
+        </li>
+      </ol>
+    </section>
+
+    <!-- 04 — PROJECTS -->
+    <section class="section container" id="projects">
+      <header class="sec-header" data-reveal>
+        <span class="label">04</span>
+        <h2>Projects.</h2>
+      </header>
+      <div class="prose" data-reveal>
+        <p>Un Project es un espacio de trabajo persistente en Claude. Le subes documentos, defines instrucciones permanentes, y todas las conversaciones dentro del Project heredan ese contexto.</p>
+        <p>Para el hackathon: <strong>cada equipo crea su propio Project</strong>. Ahí cargan brief, research, guidelines, transcripciones, todo. Las instrucciones del Project deben incluir el rol del equipo, el reto asignado y el tono de Banana.</p>
+        <p>Beneficio: dejas de explicar el contexto cada vez que abres una conversación nueva.</p>
+      </div>
+    </section>
+
+    <!-- 05 — ABOUT YOU -->
+    <section class="section container" id="about-you">
+      <header class="sec-header" data-reveal>
+        <span class="label">05</span>
+        <h2>About You.</h2>
+      </header>
+      <div class="prose" data-reveal>
+        <p>About You es la sección donde le dices a Claude quién eres tú: tu rol, tus preferencias de comunicación, qué cosas debe asumir por defecto.</p>
+        <p>Llénala. Es la diferencia entre que Claude te trate como un usuario genérico o como un diseñador en Banana con un estilo de trabajo específico.</p>
+        <p>Recomendaciones para el hackathon: incluye tu rol en Banana, tu equipo, tu reto, y qué tono prefieres (directo, sin preámbulos, cuestionador).</p>
+      </div>
+    </section>
+
+    <!-- 06 — PLANS & LIMITS -->
+    <section class="section container" id="plans">
+      <header class="sec-header" data-reveal>
+        <span class="label">06</span>
+        <h2>Planes y límites.</h2>
+      </header>
+      <div class="prose" style="margin-bottom:var(--sp-5);" data-reveal>
+        <p>Claude tiene planes con límites de uso por ventana de tiempo. Mientras más uses, más rápido se consumen los créditos. Si te topas con el límite, espera la próxima ventana o sube de plan.</p>
+      </div>
+      <div style="overflow-x:auto;" data-reveal>
+        <table class="plans">
+          <thead>
+            <tr><th>Plan</th><th>Para quién</th><th>Notas</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Free</td>
+              <td>Pruebas, uso casual</td>
+              <td>Limitado en mensajes y modelos. Insuficiente para el hackathon.</td>
+            </tr>
+            <tr>
+              <td>Pro</td>
+              <td>Uso individual sostenido</td>
+              <td>Acceso a Sonnet/Opus, Projects, más uso. Mínimo recomendado para participantes.</td>
+            </tr>
+            <tr>
+              <td>Max</td>
+              <td>Power users, equipos</td>
+              <td>Mayores límites de uso, prioridad. Para quienes vayan a vivir adentro de Claude.</td>
+            </tr>
+            <tr>
+              <td>Team / Enterprise</td>
+              <td>Empresas, colaboración</td>
+              <td>Workspaces compartidos, controles de admin, auditoría.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="label" style="margin-top:var(--sp-4);">Para detalle actualizado: docs.claude.com / support.claude.com</p>
+    </section>
+
+    <!-- 07 — QUICK START 5 STEPS -->
+    <section class="section container" id="quick-start">
+      <header class="sec-header" data-reveal>
+        <span class="label">07 · 5 pasos</span>
+        <h2>Quick start.</h2>
+      </header>
+      <ol class="quick-start">
+        <li data-reveal data-reveal-delay="1">
+          <h3>Cuenta + plan</h3>
+          <p>Crea tu cuenta en claude.ai. Sube a Pro como mínimo.</p>
+        </li>
+        <li data-reveal data-reveal-delay="2">
+          <h3>About You</h3>
+          <p>Llena tu perfil con rol, equipo, reto y preferencias.</p>
+        </li>
+        <li data-reveal data-reveal-delay="3">
+          <h3>Crea el Project</h3>
+          <p>Uno por equipo. Sube todo el material relevante.</p>
+        </li>
+        <li data-reveal data-reveal-delay="4">
+          <h3>Conecta tools</h3>
+          <p>Notion, Drive, Calendar, Slack — lo que tu equipo use.</p>
+        </li>
+        <li data-reveal data-reveal-delay="5">
+          <h3>Empieza a iterar</h3>
+          <p>Aplica el método de 4 bloques. Documenta lo que funciona.</p>
+        </li>
+      </ol>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      <span class="site-footer__copy"><img src="assets/copyright.svg" alt="© BANANACREATIVE.CO" /></span>
+      <span>Caracas, Venezuela · Build Us With AI · 2026</span>
+    </div>
+  </footer>
+
+  <script type="module" src="assets/motion.js"></script>
+
+</body>
+</html>
